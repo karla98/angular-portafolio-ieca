@@ -7,11 +7,12 @@
 <body>
     <div style="display: flex">
         <input type="text" id="inputEncabezado" placeholder="Ingresa el nuevo encabezado"
-        style="width:70%;margin-bottom:10px" />
+            style="width:70%;margin-bottom:10px" />
     </div>
     <div style="display: flex">
-        <button id="btnActualizacion" onClick="modificarEncabezado()" style="margin-right: 10px">Establecer Encabezado</button>
-        <button id="btnUndo" disabled>Encabezado Anterior</button>
+        <button id="btnActualizacion" onClick="modificarEncabezado()" style="margin-right: 10px">Establecer
+            Encabezado</button>
+        <button id="btnUndo" disabled onClick="restablecerAlAnterior()">Encabezado Anterior</button>
     </div>
     <h1 id="encabezado">...</h1>
 
@@ -37,9 +38,33 @@
         const btnUndo = document.getElementById('btnUndo')
         const tituloEncabezado = document.getElementById('encabezado')
         const inputEncabezado = document.getElementById('inputEncabezado')
+        let encabezadoAnterior = "";
+        let contador = 0;
 
         function modificarEncabezado() {
             /* Tu código aquí */
+            const nuevoValorSinEspacios = inputEncabezado.value.trim();
+
+            if (nuevoValorSinEspacios == "" || !nuevoValorSinEspacios) {
+                alert("El valor del encabezado no puede ser vacío.");
+                return;
+            }
+
+            encabezadoAnterior = tituloEncabezado.textContent;
+
+            tituloEncabezado.textContent = nuevoValorSinEspacios;
+            inputEncabezado.value = "";
+
+            contador++;
+
+            if(contador >= 2){
+                btnUndo.removeAttribute("disabled");
+            }
+        }
+
+        function restablecerAlAnterior() {
+            tituloEncabezado.textContent = encabezadoAnterior;
+            btnUndo.setAttribute("disabled", "true");
         }
     </script>
 </body>
