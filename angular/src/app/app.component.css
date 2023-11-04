@@ -113,22 +113,55 @@ h3::before {
 }
 
 .directivas .pokemons {
-  border: 1px dashed red;
+  /*border: 1px dashed red;*/
   width: 100%;
   display: flex;
 }
 
 .directivas .pokemons a {
-  color: cyan;
+  color: #343a40;
+  text-decoration: none;
+
 }
 
 .directivas .pokemons div::before {
-  content: '👾 ';
+  /*content: '👾 ';*/
 }
 
 .directivas .pokemons div {
-  border: 1px dashed green;
+  /*border: 1px dashed green;*/
   width: 150px;
   font-size: 0.85rem;
 }
 
+/* -------------------  CARDS POKEMONES --------------------- */
+
+.card-container-pokemons{
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 5%;
+}
+
+.card-pokemons{
+  background-color: rgb(230, 214, 214);
+  display: flex;
+  border-radius: 5px;
+  width: 250px;
+  height: auto;
+  flex-direction: column;
+  margin: 0 30px 30px 0;
+  overflow: hidden;
+}
+
+.card-pokemons h2 {
+  font-size: 14px;
+  color: #e7e755;
+  text-align: center;
+  background-color: #2d4699;
+}
+
+.card-pokemons:hover {
+  box-shadow: 5px 5px 10px #2d4699, -5px -5px 10px #2d4699;
+}

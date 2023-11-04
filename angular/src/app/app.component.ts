@@ -4,25 +4,24 @@ import { Pokemon } from './pokemon.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent implements OnInit {
+  appName: string = 'fundamentals-app';
+  angularLogo: string =
+    'https://angular.io/assets/images/logos/angular/angular.svg';
 
-  appName:string = 'fundamentals-app';
-  angularLogo:string = "https://angular.io/assets/images/logos/angular/angular.svg"
-
-  btnDisabled:boolean = true
-  email:string = "edu@eml.run"
+  btnDisabled: boolean = true;
+  email: string = 'edu@eml.run';
 
   mostrarAlerta() {
-    alert("Alerta ⚠️")
+    alert('Alerta ⚠️');
   }
 
-  contadorOvejas:number = 0
+  contadorOvejas: number = 0;
 
   contarOveja() {
-    this.contadorOvejas += 1
+    this.contadorOvejas += 1;
   }
 
   establecerOvejas(event: Event) {
@@ -38,39 +37,59 @@ export class AppComponent implements OnInit {
     }
   }
 
-  persona:any = {
-    nombre: ''
+  persona: any = {
+    nombre: '',
+  };
+
+  listaPersonas: string[] = [];
+
+  agregarPersona(): void {
+    this.listaPersonas.push(this.persona.nombre);
+    this.persona.nombre = '';
   }
 
-  listaPersonas: string[] = []
-
-  agregarPersona():void {
-    this.listaPersonas.push(this.persona.nombre)
-    this.persona.nombre = ''
-  }
-
-  borrarPersona(index: number):void {
-    this.listaPersonas.splice(index, 1)
+  borrarPersona(index: number): void {
+    this.listaPersonas.splice(index, 1);
   }
 
   miPokedex: Pokemon[] = [];
 
-  ngOnInit(): void {
-      fetch(`https://pokeapi.co/api/v2/pokemon?limit=8&offset=${Math.floor(Math.random() * 501)}`)
+  randoomPokemons: any;
+
+  async ngOnInit() {
+
+    await fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=8&offset=${Math.floor(Math.random() * 501)}`
+    )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.results)
-        this.miPokedex = data.results
-      })
-
+        console.log(data.results);
+        this.miPokedex = data.results;
+      });
       /*
       AQUÍ PUEDES CONTINUAR CON EL EJERCICIO PARA OBTENER LA IMAGEN DEL POKÉMON
         -> Recuerda revisar el API de https://pokeapi.co/ <-
       */
-
+    await this.obtenerImagenes();
   }
 
-  nuevoPokemon: string = "";
+  async obtenerImagenes() : Promise<void> {
+    for (let i = 0; i < this.miPokedex.length; i++) {
+      try {
+        await fetch(this.miPokedex[i].url)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(
+              'Esta es la imagen de la lista:',
+              data.sprites.front_default
+            );
+            this.miPokedex[i].imagen = data.sprites.front_default;
+          });
+      } catch (error) {
+        console.error('Error al obtener la imagen:', error);
+      }
+    }
+  }
 
-
+  nuevoPokemon: string = '';
 }
